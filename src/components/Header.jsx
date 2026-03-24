@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { Context } from './Context';
 
 const HeaderContainer = styled.header`
   background-color: #4D148C; // FedEx Purple
@@ -11,7 +13,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 2;
 `;
 
 const NavContent = styled.div`
@@ -102,11 +104,14 @@ const Hamburger = styled.div`
 `;
 
 const Header = () => {
+    const navigate = useNavigate();
+  
+
   return (
     <HeaderContainer>
       <NavContent>
         <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
-          <LogoSection>
+          <LogoSection onClick={()=>navigate('/')}>
             <span>Fed</span><span>Ex</span>
           </LogoSection>
 

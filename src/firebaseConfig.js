@@ -6,21 +6,20 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// FMC Firebase configuration
+// Your Firebase configuration (fedclonesite)
 const firebaseConfig = {
-  apiKey: "AIzaSyBJWY-am7yBGnLbw1r_4N76zKvR3jpInqA",
-  authDomain: "fmc-website-d6b93.firebaseapp.com",
-  projectId: "fmc-website-d6b93",
-  storageBucket: "fmc-website-d6b93.firebasestorage.app",
-  messagingSenderId: "170416154096",
-  appId: "1:170416154096:web:f5b67b7f4b9c2c672ee935",
-  measurementId: "G-NCFY60FX86"
+  apiKey: "AIzaSyBdn9Bn-wOvVyRuK3yVoEJ2EgyGFOE64bo",
+  authDomain: "fedclonesite.firebaseapp.com",
+  projectId: "fedclonesite",
+  storageBucket: "fedclonesite.firebasestorage.app",
+  messagingSenderId: "972980433920",
+  appId: "1:972980433920:web:6029b3f55c6f7a7fb1d4e5"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Analytics safely (for SSR environments)
+// Initialize Analytics safely (for SSR environments like Next.js)
 let analytics;
 if (typeof window !== "undefined") {
   analytics = getAnalytics(app);

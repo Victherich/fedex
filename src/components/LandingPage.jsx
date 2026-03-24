@@ -24,6 +24,7 @@ const LandingPage = ()=>{
 <BusinessSolutions/>
 <FooterNotices/>
 
+
         </div>
     )
 }

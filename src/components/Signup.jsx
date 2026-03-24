@@ -81,7 +81,7 @@ const LinkText = styled.p`
 `;
 // ===== END STYLED COMPONENTS =====
 
-const UserSignup = () => {
+const Signup = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
@@ -220,4 +220,4 @@ const UserSignup = () => {
   );
 };
 
-export default UserSignup;
+export default Signup;
