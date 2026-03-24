@@ -8,8 +8,7 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import Profile from "./Profile";
 import Swal from "sweetalert2";
-import ManageTestimonies from './ManageTestimonies'
-import ManageInspirations from "./ManageInspirations";
+
 import DashboardHomeButton from "./DashboardHomeButton";
 
 /* ================= THEME ================= */
