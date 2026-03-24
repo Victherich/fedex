@@ -1,0 +1,298 @@
+
+
+
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebaseConfig";
+import Profile from "./Profile";
+import Swal from "sweetalert2";
+import ManageTestimonies from './ManageTestimonies'
+import ManageInspirations from "./ManageInspirations";
+import DashboardHomeButton from "./DashboardHomeButton";
+
+/* ================= THEME ================= */
+const colors = {
+  primary: "#0A3CFF",
+  secondary: "#D4AF37",
+  bg: "#F8FAFC",
+  sidebar: "#FFFFFF",
+  border: "#E5E7EB",
+  textDark: "#1E293B",
+  textLight: "#64748B",
+};
+
+/* ================= LAYOUT ================= */
+
+const DashboardContainer = styled.div`
+  display: flex;
+  height: 100vh;
+  background: ${colors.bg};
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const TopBar = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-bottom: 1px solid ${colors.border};
+    padding: 1rem;
+    font-weight: 600;
+  }
+`;
+
+const Hamburger = styled.div`
+  font-size: 24px;
+  cursor: pointer;
+  //  background: white;
+`;
+
+/* ================= SIDEBAR ================= */
+
+const Sidebar = styled.div`
+  width: 260px;
+  background: ${colors.sidebar};
+  border-right: 1px solid ${colors.border};
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.3s ease-in-out;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: ${({ open }) =>
+      open ? "translateX(0)" : "translateX(-100%)"};
+    z-index: 1000;
+  }
+`;
+
+const SidebarTitle = styled.h3`
+  margin-bottom: 1rem;
+  color: ${colors.primary};
+`;
+
+/* Overlay */
+const Overlay = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: ${({ open }) => (open ? "block" : "none")};
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+  }
+`;
+
+/* Sidebar Buttons */
+const SidebarButton = styled.button`
+  background: transparent;
+  color: ${colors.textDark};
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #eef2ff;
+    color: ${colors.primary};
+    transform: translateX(4px);
+  }
+`;
+
+const LogoutButton = styled.button`
+  margin-top: auto;
+  background: #fff7e6;
+  color: ${colors.secondary};
+  border: 1px solid #fde68a;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+
+  &:hover {
+    background: ${colors.secondary};
+    color: black;
+  }
+`;
+
+/* ================= CONTENT ================= */
+
+const ContentArea = styled.div`
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+`;
+
+const Header = styled.h2`
+  // color: ${colors.textDark};
+  color:#0a3cff;
+  margin-bottom: 1rem;
+`;
+
+/* ================= COMPONENT ================= */
+
+const UserDashboard = () => {
+  const navigate = useNavigate();
+  const [activePage, setActivePage] = useState("profile");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigate("/login");
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    const result = await Swal.fire({
+      title: "Logout?",
+      text: "You will be signed out.",
+      icon: "warning",
+      confirmButtonColor: colors.primary,
+      cancelButtonColor: colors.secondary,
+      showCancelButton: true,
+      confirmButtonText: "Yes, logout",
+    });
+
+    if (result.isConfirmed) {
+      await signOut(auth);
+      navigate("/login");
+    }
+  };
+
+  const renderPage = () => {
+    switch (activePage) {
+      case "profile":
+        return <Profile setActivePage={setActivePage}/>;
+
+
+      default:
+        return <Profile />;
+    }
+  };
+
+  if (loading) {
+    return (
+      <h2 style={{ textAlign: "center", marginTop: "50px", color:"#0A3CFF" }}>
+        Loading...
+      </h2>
+    );
+  }
+
+  return (
+    <>
+      <TopBar>
+        <Hamburger onClick={() => setMenuOpen(true)}>☰</Hamburger>
+        {/* <h3>Dashboard</h3> */}
+      </TopBar>
+
+      <Overlay open={menuOpen} onClick={() => setMenuOpen(false)} />
+
+      <DashboardContainer>
+        <Sidebar open={menuOpen}>
+          <SidebarTitle>Dashboard</SidebarTitle>
+
+          <SidebarButton
+            onClick={() => {
+              setActivePage("profile");
+              setMenuOpen(false);
+            }}
+          >
+            Profile
+          </SidebarButton>
+
+           <SidebarButton
+            onClick={() => {
+              setActivePage("events");
+              setMenuOpen(false);
+            }}
+          >
+            Manage Events
+          </SidebarButton>
+
+          <SidebarButton
+            onClick={() => {
+              setActivePage("testimonies");
+              setMenuOpen(false);
+            }}
+          >
+            Manage Testimonies
+          </SidebarButton>
+
+        
+
+          
+
+          <SidebarButton
+            onClick={() => {
+              setActivePage("inspirationals");
+              setMenuOpen(false);
+            }}
+          >
+            Manage Inspirationals
+          </SidebarButton>
+
+            <SidebarButton
+            onClick={() => {
+              setActivePage("sermons");
+              setMenuOpen(false);
+            }}
+          >
+            Manage Sermons 
+          </SidebarButton>
+
+
+            <SidebarButton
+            onClick={() => {
+              setActivePage("payments");
+              setMenuOpen(false);
+            }}
+          >
+            Transaction History
+          </SidebarButton>
+
+            <SidebarButton
+            onClick={() => {
+              setActivePage("hosting");
+              setMenuOpen(false);
+            }}
+          >
+            Manage Site Hosting
+          </SidebarButton>
+
+          <LogoutButton onClick={handleLogout}>
+            Logout
+          </LogoutButton>
+        </Sidebar>
+ <DashboardHomeButton onGoHome={() => setActivePage('profile')} />
+        <ContentArea>
+          <Header>Dashboard</Header>
+          {renderPage()}
+        </ContentArea>
+      </DashboardContainer>
+    </>
+  );
+};
+
+export default UserDashboard;
