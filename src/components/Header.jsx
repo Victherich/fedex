@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Context } from './Context';
+import { FaChevronDown } from 'react-icons/fa';
 
 const HeaderContainer = styled.header`
   background-color: #4D148C; // FedEx Purple
@@ -58,6 +59,10 @@ const NavItem = styled.div`
 
   &:hover {
     opacity: 0.8;
+  }
+
+  span{
+  margin-top:5px;
   }
 `;
 
@@ -116,11 +121,11 @@ const Header = () => {
           </LogoSection>
 
           <DesktopNav>
-            <NavItem>Shipping <span>⌄</span></NavItem>
-            <NavItem>Tracking <span>⌄</span></NavItem>
-            <NavItem>Design & Print <span>⌄</span></NavItem>
-            <NavItem>Locations <span>⌄</span></NavItem>
-            <NavItem>Support <span>⌄</span></NavItem>
+            <NavItem>Shipping <span><FaChevronDown/></span></NavItem>
+            <NavItem>Tracking <span><FaChevronDown/></span></NavItem>
+            <NavItem>Design & Print <span><FaChevronDown/></span></NavItem>
+            <NavItem>Locations <span><FaChevronDown/></span></NavItem>
+            <NavItem>Support <span><FaChevronDown/></span></NavItem>
           </DesktopNav>
         </div>
 

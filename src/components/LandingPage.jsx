@@ -8,6 +8,7 @@ import WhyShipWithFedEx from './WhyShipWithFedEx'
 import Hero from './Hero'
 import TariffAlert from './Tarrifalert'
 import MobileActions from './MobileActions'
+import MobileHero from './MobileHero'
 
 
 const LandingPage = ()=>{
@@ -16,7 +17,7 @@ const LandingPage = ()=>{
     return(
         <div>
             <Hero/>
-           
+           <MobileHero/>
             <TariffAlert/>
              <MobileActions/>
             <WhyShipWithFedEx/>

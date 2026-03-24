@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import socialicons from '../Images/socialicons.png'
+import globeicon from '../Images/globeicon.png'
 
 const FooterWrapper = styled.footer`
   font-family: 'Roboto', sans-serif;
-  background-color: #fff;
+  background-color: #FAFAFA;
   color: #333;
 `;
 
@@ -89,6 +91,10 @@ const LanguageSelect = styled.div`
   width: 220px;
   font-size: 16px;
   cursor: pointer;
+
+  @media(max-width:768px){
+  width:100%;
+  }
 `;
 
 const SocialSection = styled.div`
@@ -116,14 +122,22 @@ const SocialHeading = styled.span`
 
 const IconGroup = styled.div`
   display: flex;
-  gap: 15px;
+  // gap: 15px;
   font-size: 20px;
+  width:100%;
+
+  @media(max-width:768px){
+   justify-content:center;
+  align-items:center;
+  }
+ 
 `;
 
 const BottomBar = styled.div`
   background-color: #4D148C;
   color: #fff;
-  padding: 15px 20px;
+  padding: 30px 20px;
+  
 `;
 
 const BottomContent = styled.div`
@@ -133,6 +147,7 @@ const BottomContent = styled.div`
   justify-content: space-between;
   font-size: 13px;
   font-weight: 300;
+
 
   @media (max-width: 900px) {
     flex-direction: column;
@@ -145,6 +160,8 @@ const BottomContent = styled.div`
 const LegalLinks = styled.div`
   display: flex;
   gap: 15px;
+  flex-wrap:wrap;
+  justify-content:center;
   
   a {
     color: #fff;
@@ -152,6 +169,14 @@ const LegalLinks = styled.div`
     &:hover { text-decoration: underline; }
   }
 `;
+
+const ImgSocial = styled.img`
+
+
+@media(max-width:768px){
+width:80%;
+}
+`
 
 const Footer = () => {
   return (
@@ -188,7 +213,7 @@ const Footer = () => {
           <ColumnHeading>Language</ColumnHeading>
           <LanguageSection>
             <CountryLabel>
-              <span>🌐</span> United States
+              <span><img src={globeicon} alt="globeicon"/></span> United States
             </CountryLabel>
             <LanguageSelect>
               English <span>▼</span>
@@ -201,7 +226,8 @@ const Footer = () => {
         <SocialHeading>Follow FedEx</SocialHeading>
         <IconGroup>
           {/* Using text/emojis as placeholders for the actual SVG icons */}
-          <span>✉️</span> <span>Facebook</span> <span>X</span> <span>IG</span> <span>in</span> <span>YT</span> <span>P</span>
+          {/* <span>✉️</span> <span>Facebook</span> <span>X</span> <span>IG</span> <span>in</span> <span>YT</span> <span>P</span> */}
+       <ImgSocial src={socialicons} alt='socialicons' />
         </IconGroup>
       </SocialSection>
 

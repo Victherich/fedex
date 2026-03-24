@@ -31,6 +31,12 @@ const MainHeading = styled.h2`
   font-weight: 300;
   margin-bottom: 40px;
   color: #444;
+
+
+  @media(max-width:768px){
+   text-align:center;
+  }
+ 
 `;
 
 const FeaturesGrid = styled.div`

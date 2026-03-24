@@ -70,15 +70,15 @@ const Timeline = styled.div`
   justify-content: space-between;
   position: relative;
   margin-top: 30px;
-  padding: 0 10px;
+  // padding: 0 10px;
 
   &::after {
     content: "";
     position: absolute;
-    top: 24px;
-    left: 10%;
-    right: 10%;
-    height: 4px;
+    top: 18px;
+    left: 3%;
+    right: 3%;
+    height: 6px;
     background: #eee;
     z-index: 0;
   }
@@ -89,11 +89,11 @@ const Stage = styled.div`
   flex-direction: column;
   align-items: center;
   z-index: 1;
-  width: 14%;
+  width: 1%;
 `;
 
 const IconWrapper = styled.div`
-  font-size: 24px;
+  font-size: 15px;
   color: ${({ active }) => (active ? secondary : "#ccc")};
   background: ${({ active }) => (active ? "#4D148C" : "#eee")};
   padding: 10px;
@@ -118,13 +118,22 @@ const ShipmentInfo = styled.div`
 
 /* ================= COMPONENT ================= */
 
+// const stages = [
+//   { key: "Pending", label: "Pending", icon: <FaBox /> },
+//   { key: "Confirmed", label: "Confirmed", icon: <FaCheckCircle /> },
+//   { key: "Picked Up", label: "Picked Up", icon: <FaTruck /> },
+//   { key: "Processing", label: "Processing", icon: <FaMapMarkerAlt /> },
+//   { key: "In Transit", label: "In Transit", icon: <FaTruck /> },
+//   { key: "Arrived at Hub", label: "Arrived at Hub", icon: <FaMapMarkerAlt /> },
+//   { key: "Out for Delivery", label: "Out for Delivery", icon: <FaTruck /> },
+//   { key: "Delivered", label: "Delivered", icon: <FaHome /> },
+// ];
+
+
 const stages = [
   { key: "Pending", label: "Pending", icon: <FaBox /> },
   { key: "Confirmed", label: "Confirmed", icon: <FaCheckCircle /> },
-  { key: "Picked Up", label: "Picked Up", icon: <FaTruck /> },
   { key: "Processing", label: "Processing", icon: <FaMapMarkerAlt /> },
-  { key: "In Transit", label: "In Transit", icon: <FaTruck /> },
-  { key: "Arrived at Hub", label: "Arrived at Hub", icon: <FaMapMarkerAlt /> },
   { key: "Out for Delivery", label: "Out for Delivery", icon: <FaTruck /> },
   { key: "Delivered", label: "Delivered", icon: <FaHome /> },
 ];
