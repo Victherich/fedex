@@ -11,7 +11,9 @@ import {
   FaServer,           // for site hosting
   FaMoneyCheckAlt,    // for payments / transactions
   FaComments,         // for testimonies
-  FaSignOutAlt ,FaIdCard ,FaUser, FaPhone, FaEdit      // logout (already used)
+  FaSignOutAlt ,FaIdCard ,FaUser, FaPhone, FaEdit,      // logout (already used)
+  FaUserCheck,
+  FaBox
 } from "react-icons/fa";
 import Swal from 'sweetalert2';
 
@@ -298,6 +300,12 @@ const Profile = ({setActivePage}) => {
           <Title>Actions</Title>
          <Grid>
 
+           <ActionCard onClick={() => setActivePage('shipments')}>
+    <Icon><FaBox /></Icon>
+    <Label>Manage Shipments</Label>
+    {/* <Desc>View and reply to customer chats</Desc> */}
+  </ActionCard>
+
 
   <ActionCard onClick={() => setActivePage('chats')}>
     <Icon><FaComments /></Icon>
@@ -307,7 +315,7 @@ const Profile = ({setActivePage}) => {
 
 
     <ActionCard onClick={() => setActivePage('addadmin')}>
-    <Icon><FaComments /></Icon>
+    <Icon><FaUserCheck /></Icon>
     <Label>Add Admin</Label>
     {/* <Desc>View and reply to customer chats</Desc> */}
   </ActionCard>

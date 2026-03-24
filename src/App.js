@@ -11,12 +11,13 @@ import ChatButton from './components/ChatButton';
 import ChatModal from './components/ChatModal';
 import { useContext } from 'react';
 import { Context } from './components/Context';
+import ShipmentTrackerModal from './components/ShipmentTracker';
 
 
 
 function App() {
 
-  const {openChatModal} =useContext(Context);
+  const {openChatModal, showTrackerModal, setShowTrackerModal, trackingNumber} =useContext(Context);
 
 
   return (
@@ -34,6 +35,12 @@ function App() {
  </Routes>
  <ChatButton/>
  {openChatModal&&<ChatModal/>}
+
+ <ShipmentTrackerModal
+  isOpen={showTrackerModal}
+  onClose={() => setShowTrackerModal(false)}
+  initialTrackingNumber={trackingNumber}
+/>
  <Footer/>
  </BrowserRouter>
   );

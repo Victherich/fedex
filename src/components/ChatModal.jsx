@@ -128,6 +128,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Overlay = styled.div`
+border:2px solid white;
   position: fixed;
   bottom: 90px;
   right: 20px;

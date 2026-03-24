@@ -16,8 +16,9 @@ const LandingPage = ()=>{
     return(
         <div>
             <Hero/>
-            <MobileActions/>
+           
             <TariffAlert/>
+             <MobileActions/>
             <WhyShipWithFedEx/>
 <ClaritySection/>
 <ExpeditedShipping/>

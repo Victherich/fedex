@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import p9 from '../Images/p9.png'
+import { Context } from './Context';
 
 const HeroSection = styled.section`
   position: relative;
@@ -175,6 +176,9 @@ const TrackButton = styled.button`
 `;
 
 const Hero = () => {
+    const {setTrackingNumber, setShowTrackerModal} = useContext(Context);
+
+
   return (
     <HeroSection>
       <HeroContent>
@@ -209,8 +213,8 @@ const Hero = () => {
         </IconGroup>
 
         <TrackingInputGroup>
-          <Input placeholder="Tracking number" />
-          <TrackButton>TRACK</TrackButton>
+          <Input placeholder="Tracking number" onChange={(e)=>setTrackingNumber(e.target.value)}/>
+          <TrackButton onClick={()=>setShowTrackerModal(true)}>TRACK</TrackButton>
         </TrackingInputGroup>
       </ActionBar>
     </HeroSection>
