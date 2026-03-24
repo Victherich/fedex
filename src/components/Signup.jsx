@@ -14,7 +14,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #0a3bff28 90%, #d4af37 10%);
+  // background: linear-gradient(135deg, #0a3bff28 90%, #d4af37 10%);
   padding: 2rem;
 `;
 
@@ -25,12 +25,12 @@ const FormWrapper = styled.div`
   width: 100%;
   max-width: 520px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  border-top: 6px solid #d4af37;
+  border-top: 6px solid #4D148C;
 `;
 
 const Title = styled.h2`
   text-align: center;
-  color: #0a3cff;
+  color: #4D148C;
   margin-bottom: 1rem;
 `;
 
@@ -49,7 +49,7 @@ const Input = styled.input`
   border: 1px solid #ddd;
 
   &:focus {
-    border-color: #0a3cff;
+    border-color: #4D148C;
     outline: none;
   }
 `;
@@ -57,7 +57,7 @@ const Input = styled.input`
 const Button = styled.button`
   width: 100%;
   padding: 12px;
-  background: #0a3cff;
+  background: #4D148C;
   color: white;
   border: none;
   border-radius: 10px;
@@ -65,18 +65,18 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: #082fcc;
+    background: #4D148C;
   }
 `;
 
 const LinkText = styled.p`
   margin-top: 12px;
   text-align: center;
-  color: #0a3cff;
+  color: #4D148C;
   cursor: pointer;
 
   &:hover {
-    color: #d4af37;
+    color: #4D148C;
   }
 `;
 // ===== END STYLED COMPONENTS =====

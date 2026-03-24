@@ -10,11 +10,13 @@ import Profile from "./Profile";
 import Swal from "sweetalert2";
 
 import DashboardHomeButton from "./DashboardHomeButton";
+import AdminChatDashboard from "./AdminChatDashboard";
+import Signup from "./Signup";
 
 /* ================= THEME ================= */
 const colors = {
-  primary: "#0A3CFF",
-  secondary: "#D4AF37",
+  primary: "#4D148C",
+  secondary: "#4D148C",
   bg: "#F8FAFC",
   sidebar: "#FFFFFF",
   border: "#E5E7EB",
@@ -140,7 +142,7 @@ const ContentArea = styled.div`
 
 const Header = styled.h2`
   // color: ${colors.textDark};
-  color:#0a3cff;
+  color:#4D148C;
   margin-bottom: 1rem;
 `;
 
@@ -151,6 +153,11 @@ const UserDashboard = () => {
   const [activePage, setActivePage] = useState("profile");
   const [menuOpen, setMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+const [adminUser, setAdminUser] = useState(null);
+
+
+
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -158,6 +165,7 @@ const UserDashboard = () => {
         navigate("/login");
       }
       setLoading(false);
+      setAdminUser(user); 
     });
 
     return () => unsubscribe();
@@ -184,6 +192,13 @@ const UserDashboard = () => {
     switch (activePage) {
       case "profile":
         return <Profile setActivePage={setActivePage}/>;
+
+         case "chats":
+        return <AdminChatDashboard adminId={adminUser.uid}/>;
+
+         case "addadmin":
+        return <Signup/>;
+
 
 
       default:
@@ -223,53 +238,31 @@ const UserDashboard = () => {
 
            <SidebarButton
             onClick={() => {
-              setActivePage("events");
+              setActivePage("chats");
               setMenuOpen(false);
             }}
           >
-            Manage Events
+            Customer Chats
           </SidebarButton>
 
-          <SidebarButton
+
+            <SidebarButton
             onClick={() => {
-              setActivePage("testimonies");
+              setActivePage("addadmin");
               setMenuOpen(false);
             }}
           >
-            Manage Testimonies
+            Add Admin
           </SidebarButton>
 
+      
         
 
-          
+ 
 
-          <SidebarButton
-            onClick={() => {
-              setActivePage("inspirationals");
-              setMenuOpen(false);
-            }}
-          >
-            Manage Inspirationals
-          </SidebarButton>
-
-            <SidebarButton
-            onClick={() => {
-              setActivePage("sermons");
-              setMenuOpen(false);
-            }}
-          >
-            Manage Sermons 
-          </SidebarButton>
+       
 
 
-            <SidebarButton
-            onClick={() => {
-              setActivePage("payments");
-              setMenuOpen(false);
-            }}
-          >
-            Transaction History
-          </SidebarButton>
 
             <SidebarButton
             onClick={() => {

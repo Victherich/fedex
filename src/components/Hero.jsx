@@ -94,7 +94,7 @@ const ActionBar = styled.div`
   width: 90%;
   max-width: 1100px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  z-index: 10;
+  z-index: 1;
   align-items: center;
   justify-content: space-between;
 

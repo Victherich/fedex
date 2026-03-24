@@ -18,8 +18,8 @@ import Swal from 'sweetalert2';
 
 /* ================= THEME ================= */
 const colors = {
-  primary: "#0A3CFF",
-  secondary: "#D4AF37",
+  primary: "#4D148C",
+  secondary: "#4D148C",
   bg: "#F9FAFC",
   card: "#FFFFFF",
   textDark: "#1E1E2F",
@@ -297,41 +297,29 @@ const Profile = ({setActivePage}) => {
         <ActionArea>
           <Title>Actions</Title>
          <Grid>
-  <ActionCard onClick={() => setActivePage('events')}>
-    <Icon><FaCalendarAlt /></Icon>
-    <Label>Manage Events</Label>
-    <Desc>Add, Edit and Delete events</Desc>
-  </ActionCard>
 
-  <ActionCard onClick={() => setActivePage('testimonies')}>
+
+  <ActionCard onClick={() => setActivePage('chats')}>
     <Icon><FaComments /></Icon>
-    <Label>Manage Testimonies</Label>
-    <Desc>Add, Edit and Delete testimonies</Desc>
+    <Label>Customer Chats</Label>
+    <Desc>View and reply to customer chats</Desc>
   </ActionCard>
 
-  <ActionCard onClick={() => setActivePage('inspirationals')}>
-    <Icon><FaRegLightbulb /></Icon>
-    <Label>Manage Inspirationals</Label>
-    <Desc>Add, Edit and Delete Inspirationals</Desc>
+
+    <ActionCard onClick={() => setActivePage('addadmin')}>
+    <Icon><FaComments /></Icon>
+    <Label>Add Admin</Label>
+    {/* <Desc>View and reply to customer chats</Desc> */}
   </ActionCard>
 
-  <ActionCard onClick={() => setActivePage('sermons')}>
-    <Icon><FaBook /></Icon>
-    <Label>Manage Sermons</Label>
-    <Desc>Add, Edit and Delete Sermons</Desc>
-  </ActionCard>
+
+
+
 
   <ActionCard onClick={() => setActivePage('hosting')}>
     <Icon><FaServer /></Icon>
     <Label>Manage Site Hosting</Label>
   </ActionCard>
-
-  <ActionCard onClick={() => setActivePage('payments')}>
-    <Icon><FaMoneyCheckAlt /></Icon>
-    <Label>Transaction History</Label>
-  </ActionCard>
-
-
 
   <ActionCard onClick={handleLogout}>
     <Icon style={{ color: "red" }}><FaSignOutAlt /></Icon>
