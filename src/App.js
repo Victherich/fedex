@@ -12,6 +12,7 @@ import ChatModal from './components/ChatModal';
 import { useContext } from 'react';
 import { Context } from './components/Context';
 import ShipmentTrackerModal from './components/ShipmentTracker';
+import ScrollToTop from './components/ScrollToTop';
 
 
 
@@ -22,6 +23,7 @@ function App() {
 
   return (
  <BrowserRouter>
+ <ScrollToTop/>
  <Header/>
  <Routes>
   <Route path='/' element={<LandingPage/>}/>
