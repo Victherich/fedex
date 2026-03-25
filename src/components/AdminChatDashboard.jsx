@@ -198,7 +198,7 @@
 
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import AdminChatModal from "./AdminChatModal";
 
@@ -206,6 +206,10 @@ const PageContainer = styled.div`
   padding: 2rem;
   height: 100vh;
   overflow-y: auto;
+
+  h2{
+  color:#4D148C;
+  }
 `;
 
 const UserCard = styled.div`
@@ -225,23 +229,67 @@ const AdminChatDashboard = ({ adminId }) => {
   const [usersChats, setUsersChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
 
-  useEffect(() => {
-    const fetchChats = async () => {
-      const snap = await getDocs(collection(db, "chats"));
-      setUsersChats(snap.docs.map(doc => ({ chatId: doc.id, ...doc.data() })));
-    };
-    fetchChats();
-  }, []);
+  // useEffect(() => {
+  //   const fetchChats = async () => {
+  //     const snap = await getDocs(collection(db, "chats"));
+  //     setUsersChats(snap.docs.map(doc => ({ chatId: doc.id, ...doc.data() })));
+  //   };
+  //   fetchChats();
+  // }, []);
+
+
+
+
+
+  // import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+
+useEffect(() => {
+  const fetchChats = async () => {
+    const snap = await getDocs(collection(db, "chats"));
+
+    const chatsWithUserData = await Promise.all(
+      snap.docs.map(async (chatDoc) => {
+        const chatData = chatDoc.data();
+
+        // Fetch user details using userId
+        let userData = {};
+        if (chatData.userId) {
+          const userRef = doc(db, "users", chatData.userId);
+          const userSnap = await getDoc(userRef);
+
+          if (userSnap.exists()) {
+            userData = userSnap.data();
+          }
+        }
+
+        return {
+          chatId: chatDoc.id,
+          ...chatData,
+          user: userData, // attach user info
+        };
+      })
+    );
+
+    setUsersChats(chatsWithUserData);
+  };
+
+  fetchChats();
+}, []);
+
+
 
   return (
     <PageContainer>
       <h2>All User Chats</h2>
       {usersChats.length === 0 && <p>No chats yet.</p>}
       {usersChats.map((chat) => (
-        <UserCard key={chat.chatId} onClick={() => setSelectedChat(chat)}>
-          <strong>User:</strong> {chat.userId} <br />
-          <strong>Last message:</strong> {chat.messages?.[chat.messages.length - 1]?.message || "No messages"}
-        </UserCard>
+       <UserCard key={chat.chatId} onClick={() => setSelectedChat(chat)}>
+  <strong style={{color:"#4D148C"}}>Name:</strong> {chat.user?.name || "N/A"} <br />
+  <strong style={{color:"#4D148C"}}>Email:</strong> {chat.user?.email || "N/A"} <br />
+  <strong style={{color:"#4D148C"}}>Phone:</strong> {chat.user?.phone || "N/A"} <br />
+  <strong style={{color:"#4D148C"}}>Last message:</strong>{" "}
+  {chat.messages?.[chat.messages.length - 1]?.message || "No messages"}
+</UserCard>
       ))}
 
       {selectedChat && (

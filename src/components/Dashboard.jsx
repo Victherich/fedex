@@ -568,14 +568,14 @@ const UserDashboard = () => {
             Add Admin
           </SidebarButton>
 
-          <SidebarButton
+          {/* <SidebarButton
             onClick={() => {
               setActivePage("hosting");
               setMenuOpen(false);
             }}
           >
             Manage Site Hosting
-          </SidebarButton>
+          </SidebarButton> */}
 
           <LogoutButton onClick={handleLogout}>
             Logout

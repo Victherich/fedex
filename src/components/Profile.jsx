@@ -324,10 +324,10 @@ const Profile = ({setActivePage}) => {
 
 
 
-  <ActionCard onClick={() => setActivePage('hosting')}>
+  {/* <ActionCard onClick={() => setActivePage('hosting')}>
     <Icon><FaServer /></Icon>
     <Label>Manage Site Hosting</Label>
-  </ActionCard>
+  </ActionCard> */}
 
   <ActionCard onClick={handleLogout}>
     <Icon style={{ color: "red" }}><FaSignOutAlt /></Icon>

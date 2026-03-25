@@ -106,7 +106,7 @@ const AdminChatModal = ({ adminId, chat, onClose }) => {
     <ModalOverlay>
       <ModalContainer>
         <Header>
-          <h3>Chat with {chat.userId}</h3>
+          <h3>Chat with {chat.user?.name}</h3>
           <button
             onClick={onClose}
             style={{ color: "#fff", background: "transparent", border: "none", fontSize: "16px", cursor: "pointer" }}
