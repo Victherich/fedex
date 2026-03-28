@@ -304,6 +304,7 @@ import DashboardHomeButton from "./DashboardHomeButton";
 import AdminChatDashboard from "./AdminChatDashboard";
 import Signup from "./Signup";
 import ManageShipments from "./ManageShipments";
+import EmailSender from "./EmailSender";
 
 /* ================= THEME ================= */
 const colors = {
@@ -507,6 +508,9 @@ const UserDashboard = () => {
           case "shipments":
         return <ManageShipments />;
 
+            case "emailsender":
+        return <EmailSender />;
+
       default:
         return <Profile />;
     }
@@ -557,6 +561,15 @@ const UserDashboard = () => {
             }}
           >
             Customer Chats
+          </SidebarButton>
+
+            <SidebarButton
+            onClick={() => {
+              setActivePage("emailsender");
+              setMenuOpen(false);
+            }}
+          >
+            Send Email
           </SidebarButton>
 
           <SidebarButton

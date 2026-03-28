@@ -13,7 +13,8 @@ import {
   FaComments,         // for testimonies
   FaSignOutAlt ,FaIdCard ,FaUser, FaPhone, FaEdit,      // logout (already used)
   FaUserCheck,
-  FaBox
+  FaBox,
+  FaEnvelope
 } from "react-icons/fa";
 import Swal from 'sweetalert2';
 
@@ -311,6 +312,13 @@ const Profile = ({setActivePage}) => {
     <Icon><FaComments /></Icon>
     <Label>Customer Chats</Label>
     <Desc>View and reply to customer chats</Desc>
+  </ActionCard>
+
+
+    <ActionCard onClick={() => setActivePage('emailsender')}>
+    <Icon><FaEnvelope /></Icon>
+    <Label>Email Sender</Label>
+    {/* <Desc>View and reply to customer chats</Desc> */}
   </ActionCard>
 
 
