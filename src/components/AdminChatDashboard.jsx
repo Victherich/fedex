@@ -243,6 +243,41 @@ const AdminChatDashboard = ({ adminId }) => {
 
   // import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 
+// useEffect(() => {
+//   const fetchChats = async () => {
+//     const snap = await getDocs(collection(db, "chats"));
+
+//     const chatsWithUserData = await Promise.all(
+//       snap.docs.map(async (chatDoc) => {
+//         const chatData = chatDoc.data();
+
+//         // Fetch user details using userId
+//         let userData = {};
+//         if (chatData.userId) {
+//           const userRef = doc(db, "users", chatData.userId);
+//           const userSnap = await getDoc(userRef);
+
+//           if (userSnap.exists()) {
+//             userData = userSnap.data();
+//           }
+//         }
+
+//         return {
+//           chatId: chatDoc.id,
+//           ...chatData,
+//           user: userData, // attach user info
+//         };
+//       })
+//     );
+
+//     setUsersChats(chatsWithUserData);
+//   };
+
+//   fetchChats();
+// }, []);
+
+
+
 useEffect(() => {
   const fetchChats = async () => {
     const snap = await getDocs(collection(db, "chats"));
@@ -251,7 +286,6 @@ useEffect(() => {
       snap.docs.map(async (chatDoc) => {
         const chatData = chatDoc.data();
 
-        // Fetch user details using userId
         let userData = {};
         if (chatData.userId) {
           const userRef = doc(db, "users", chatData.userId);
@@ -265,12 +299,17 @@ useEffect(() => {
         return {
           chatId: chatDoc.id,
           ...chatData,
-          user: userData, // attach user info
+          user: userData,
         };
       })
     );
 
-    setUsersChats(chatsWithUserData);
+    // ✅ FILTER HERE
+    setUsersChats(
+      chatsWithUserData.filter(
+        (chat) => chat.messages && chat.messages.length > 0
+      )
+    );
   };
 
   fetchChats();
