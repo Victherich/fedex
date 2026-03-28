@@ -133,7 +133,7 @@ const ShipmentInfo = styled.div`
 const stages = [
   { key: "Pending", label: "Pending", icon: <FaBox /> },
   { key: "Confirmed", label: "Confirmed", icon: <FaCheckCircle /> },
-  { key: "Processing", label: "Processing", icon: <FaMapMarkerAlt /> },
+  { key: "Awaiting Custom Clearance", label: "Awaiting Custom Clearance", icon: <FaMapMarkerAlt /> },
   { key: "Out for Delivery", label: "Out for Delivery", icon: <FaTruck /> },
   { key: "Delivered", label: "Delivered", icon: <FaHome /> },
 ];

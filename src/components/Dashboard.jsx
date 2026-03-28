@@ -425,7 +425,7 @@ const LogoutButton = styled.button`
 
 const ContentArea = styled.div`
   flex: 1;
-  padding: 1.5rem;
+  padding: 1rem;
   overflow-y: auto;
 `;
 

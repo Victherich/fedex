@@ -152,6 +152,7 @@ import styled from "styled-components";
 import { doc, updateDoc, arrayUnion, onSnapshot } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import Swal from 'sweetalert2'
+import { FiPaperclip } from "react-icons/fi";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -566,7 +567,7 @@ const sendMessage = async () => {
       <img
         src={previewUrl}
         alt="preview"
-        style={{ maxWidth: "200px", borderRadius: "10px" }}
+        style={{ maxWidth: "50px", borderRadius: "10px" }}
       />
     )}
 
@@ -574,7 +575,7 @@ const sendMessage = async () => {
       <video
         controls
         src={previewUrl}
-        style={{ maxWidth: "200px", borderRadius: "10px" }}
+        style={{ maxWidth: "50px", borderRadius: "10px" }}
       />
     )}
   </div>
@@ -583,7 +584,8 @@ const sendMessage = async () => {
   
   {/* File selector */}
   <FileButton>
-    📎 Attach
+    {/* 📎 Attach */}
+     <FiPaperclip style={{ marginRight: "6px" }} />
     <FileInput type="file" accept="image/*,video/*" onChange={handleFileChange} />
   </FileButton>
 

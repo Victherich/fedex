@@ -127,7 +127,7 @@ const TrackButton = styled.button`
   background-color: #ff6200;
   color: white;
   border: none;
-  padding: 0 25px;
+  padding: 0 10px;
   font-weight: 700;
   font-size: 16px;
   display: flex;
@@ -171,7 +171,8 @@ const MobileHero = () => {
         <TrackingInputGroup>
           <Input placeholder="TRACKING ID" onChange={(e)=>setTrackingNumber(e.target.value)}/>
           <TrackButton onClick={()=>setShowTrackerModal(true)}>
-            TRACK <span>→</span>
+            TRACK
+             {/* <span>→</span> */}
           </TrackButton>
         </TrackingInputGroup>
       </TrackingSection>

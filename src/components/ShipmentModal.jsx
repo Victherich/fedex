@@ -277,7 +277,7 @@ export default function ShipmentModal({
               <option>Pending</option>
               <option>Confirmed</option>
            
-              <option>Processing</option>
+              <option>Awaiting Custom Clearance</option>
           
               <option>Out for Delivery</option>
               <option>Delivered</option>
