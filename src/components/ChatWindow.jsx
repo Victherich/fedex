@@ -13,7 +13,7 @@ import {
   getDocs,
   collection,
   query,
-  where,setDoc
+  where,setDoc,onSnapshot
 } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { Context } from "./Context";
@@ -127,6 +127,12 @@ const ChatWindow = ({ user, setUser }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const [viewer, setViewer] = useState({
+  open: false,
+  url: "",
+  type: "",
+});
+
   // useEffect(() => {
   //   const fetchChat = async () => {
   //     const q = query(collection(db, "chats"), where("userId", "==", user.uid));
@@ -178,6 +184,22 @@ const ChatWindow = ({ user, setUser }) => {
 
   //   if (user?.uid) initChat();
   // }, [user]);
+
+
+useEffect(() => {
+  if (!chatId) return;
+
+  const unsubscribe = onSnapshot(doc(db, "chats", chatId), (docSnap) => {
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      setMessages(data.messages || []);
+    }
+  });
+
+  return () => unsubscribe(); // cleanup
+}, [chatId]);
+
+
 
 
 
@@ -345,7 +367,7 @@ useEffect(() => {
       messages: arrayUnion(newMessage),
     });
 
-    setMessages((prev) => [...prev, newMessage]);
+    // setMessages((prev) => [...prev, newMessage]);
     setText("");
     setFile(null);
     setPreviewUrl(null);
@@ -371,20 +393,34 @@ useEffect(() => {
 
               {msg.type === "image" && (
                 <img
-                  src={msg.attachment}
-                  alt=""
-                  style={{ maxWidth: "100%", width: "180px", borderRadius: "10px" }}
-                />
+  src={msg.attachment}
+  alt=""
+  onClick={() =>
+    setViewer({ open: true, url: msg.attachment, type: "image" })
+  }
+  style={{
+    maxWidth: "100%",
+    width: "180px",
+    borderRadius: "10px",
+    cursor: "pointer",
+  }}
+/>
               )}
 
               {msg.type === "video" && (
-                <video
-                  controls
-                  playsInline
-                  style={{ maxWidth: "100%", width: "180px", borderRadius: "10px" }}
-                >
-                  <source src={msg.attachment} />
-                </video>
+               <video
+  onClick={() =>
+    setViewer({ open: true, url: msg.attachment, type: "video" })
+  }
+  style={{
+    maxWidth: "100%",
+    width: "180px",
+    borderRadius: "10px",
+    cursor: "pointer",
+  }}
+>
+  <source src={msg.attachment} />
+</video>
               )}
             </Bubble>
           </MessageBubbleWrapper>
@@ -422,6 +458,42 @@ useEffect(() => {
           <Button onClick={sendMessage}>Send</Button>
         </Row>
       </InputBox>
+
+
+
+
+      {viewer.open && (
+  <div
+    onClick={() => setViewer({ open: false })}
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      background: "rgba(0,0,0,0.9)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 9999,
+    }}
+  >
+    {viewer.type === "image" ? (
+      <img
+        src={viewer.url}
+        alt=""
+        style={{ maxWidth: "95%", maxHeight: "95%" }}
+      />
+    ) : (
+      <video
+        src={viewer.url}
+        controls
+        autoPlay
+        style={{ maxWidth: "95%", maxHeight: "95%" }}
+      />
+    )}
+  </div>
+)}
     </Wrapper>
   );
 };
@@ -431,231 +503,3 @@ export default ChatWindow;
 
 
 
-
-
-// import React, { useState, useEffect, useRef, useContext } from "react";
-// import styled from "styled-components";
-// import { db, auth } from "../firebaseConfig";
-// import { FiPaperclip } from "react-icons/fi";
-// import {
-//   doc,
-//   getDocs,
-//   collection,
-//   query,
-//   where,
-//   updateDoc,
-//   arrayUnion,
-//   setDoc,
-// } from "firebase/firestore";
-// import { signOut } from "firebase/auth";
-// import { Context } from "./Context";
-
-// const Wrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   height: 100%;
-// `;
-
-// const Header = styled.div`
-//   background: #4D148C;
-//   color: white;
-//   padding: 10px;
-//   display: flex;
-//   justify-content: space-between;
-// `;
-
-// // const Messages = styled.div`
-// //   flex: 1;
-// //   padding: 10px;
-// //   overflow-y: auto;
-// //   display: flex;
-// //   flex-direction: column;
-// // `;
-
-// const Messages = styled.div`
-//   flex: 1;
-//   padding: 10px;
-//   overflow-y: auto;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-end;
-// `;
-
-// const MessageBubbleWrapper = styled.div`
-//   display: flex;
-//   justify-content: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
-// `;
-
-// const Bubble = styled.div`
-//   background: ${(props) => (props.isUser ? "#4D148C" : "#eee")};
-//   color: ${(props) => (props.isUser ? "white" : "black")};
-//   padding: 8px 12px;
-//   border-radius: 15px;
-//   max-width: 70%;
-//   margin-bottom:5px;
-// `;
-
-// const InputBox = styled.div`
-//   border-top: 1px solid #ddd;
-//   padding: 5px;
-// `;
-
-// const Row = styled.div`
-//   display: flex;
-//   align-items: center;
-// `;
-
-// const Input = styled.input`
-//   flex: 1;
-//   padding: 10px;
-//   border: none;
-//   outline: none;
-// `;
-
-// const Button = styled.button`
-//   background: #4D148C;
-//   color: white;
-//   border: none;
-//   padding: 10px;
-// `;
-
-// const FileButton = styled.label`
-//   background: #4D148C;
-//   color: white;
-//   padding: 8px;
-//   margin-right: 8px;
-//   cursor: pointer;
-// `;
-
-// const FileInput = styled.input`
-//   display: none;
-// `;
-
-// const ChatWindow = ({ user, setUser }) => {
-//   const [messages, setMessages] = useState([]);
-//   const [text, setText] = useState("");
-//   const [chatId, setChatId] = useState(null);
-//   const [file, setFile] = useState(null);
-//   const messagesEndRef = useRef(null);
-//   const { setOpenChatModal } = useContext(Context);
-
-//   const scrollToBottom = () => {
-//     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-//   };
-
-//   // 🔹 FETCH OR CREATE CHAT
-//   useEffect(() => {
-//     const initChat = async () => {
-//       const q = query(
-//         collection(db, "chats"),
-//         where("userId", "==", user.uid)
-//       );
-
-//       const snap = await getDocs(q);
-
-//       if (!snap.empty) {
-//         const docData = snap.docs[0];
-//         setChatId(docData.id);
-//         setMessages(docData.data().messages || []);
-//       } else {
-//         // CREATE CHAT IF NOT EXISTS
-//         const newRef = doc(collection(db, "chats"));
-
-//         await setDoc(newRef, {
-//           userId: user.uid,
-//           messages: [],
-//         });
-
-//         setChatId(newRef.id);
-//         setMessages([]);
-//       }
-//     };
-
-//     if (user?.uid) initChat();
-//   }, [user]);
-
-//   useEffect(() => {
-//     scrollToBottom();
-//   }, [messages]);
-
-//   const handleLogout = async () => {
-//     await signOut(auth);
-//     setUser(null);
-//   };
-
-//   // 🔹 SEND MESSAGE (FIXED)
-//   const sendMessage = async () => {
-//     if (!text.trim() && !file) return;
-
-//     if (!chatId) {
-//       alert("Chat not ready yet");
-//       return;
-//     }
-
-//     const newMessage = {
-//       id: user.uid,
-//       message: text,
-//       time: new Date().toISOString(),
-//     };
-
-//     try {
-//       await updateDoc(doc(db, "chats", chatId), {
-//         messages: arrayUnion(newMessage),
-//       });
-
-//       setMessages((prev) => [...prev, newMessage]);
-//       setText("");
-//       setFile(null);
-//     } catch (err) {
-//       console.error(err);
-//       alert("Failed to send message");
-//     }
-//   };
-
-//   return (
-//     <Wrapper>
-//       <Header>
-//         <h3>Customer Care</h3>
-//         <button onClick={() => setOpenChatModal(false)}>Close</button>
-//       </Header>
-
-//       <Header>
-//         <h5>Hello, {user?.name || "Customer"}</h5>
-//         <button onClick={handleLogout}>Logout</button>
-//       </Header>
-
-//       <Messages>
-//         {messages.map((msg, i) => (
-//           <MessageBubbleWrapper
-//             key={i}
-//             isUser={msg.id === user.uid}
-//           >
-//             <Bubble isUser={msg.id === user.uid}>
-//               {msg.message}
-//             </Bubble>
-//           </MessageBubbleWrapper>
-//         ))}
-//         <div ref={messagesEndRef} />
-//       </Messages>
-
-//       <InputBox>
-//         <Row>
-//           <FileButton>
-//             <FiPaperclip />
-//             <FileInput type="file" />
-//           </FileButton>
-
-//           <Input
-//             value={text}
-//             onChange={(e) => setText(e.target.value)}
-//             placeholder="Type message..."
-//           />
-
-//           <Button onClick={sendMessage}>Send</Button>
-//         </Row>
-//       </InputBox>
-//     </Wrapper>
-//   );
-// };
-
-// export default ChatWindow;
