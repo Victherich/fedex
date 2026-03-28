@@ -276,11 +276,12 @@ export default function ShipmentModal({
                 <option>--select status--</option>
               <option>Pending</option>
               <option>Confirmed</option>
-           
+           <option>On Transit</option>
               <option>Awaiting Custom Clearance</option>
           
               <option>Out for Delivery</option>
               <option>Delivered</option>
+              <option>Cancelled</option>
             </Select>
           </Section>
 
