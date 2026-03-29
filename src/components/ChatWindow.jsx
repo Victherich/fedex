@@ -112,6 +112,31 @@ const ProgressBar = styled.div`
   }
 `;
 
+
+
+const PreviewWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+  margin-bottom: 5px;
+`;
+
+const RemoveButton = styled.div`
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: red;
+  color: white;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
+
+
 const ChatWindow = ({ user, setUser }) => {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
@@ -429,7 +454,7 @@ useEffect(() => {
       </Messages>
 
       <InputBox>
-        {previewUrl && (
+        {/* {previewUrl && (
           <div>
             {uploadProgress > 0 && <ProgressBar progress={uploadProgress}><div /></ProgressBar>}
 
@@ -441,7 +466,35 @@ useEffect(() => {
               <video src={previewUrl} style={{ width: "60px" }} />
             )}
           </div>
-        )}
+        )} */}
+
+        {previewUrl && (
+  <PreviewWrapper>
+    {/* ❌ REMOVE BUTTON */}
+    <RemoveButton
+      onClick={() => {
+        setFile(null);
+        setPreviewUrl(null);
+      }}
+    >
+      ×
+    </RemoveButton>
+
+    {uploadProgress > 0 && (
+      <ProgressBar progress={uploadProgress}>
+        <div />
+      </ProgressBar>
+    )}
+
+    {file?.type.includes("image") && (
+      <img src={previewUrl} alt="" style={{ width: "60px", borderRadius: "6px" }} />
+    )}
+
+    {file?.type.includes("video") && (
+      <video src={previewUrl} style={{ width: "60px", borderRadius: "6px" }} />
+    )}
+  </PreviewWrapper>
+)}
 
         <Row>
           <FileButton>
