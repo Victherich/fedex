@@ -1,247 +1,90 @@
-// import React, { useState, useEffect, useRef } from "react";
+
+
+
+
+
+
+// import React, { useState, useEffect } from "react";
 // import styled from "styled-components";
+// import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 // import { db } from "../firebaseConfig";
-// import {
-//   collection,
-//   getDocs,
-//   doc,
-//   updateDoc,
-//   arrayUnion,
-//   onSnapshot
-// } from "firebase/firestore";
+// import AdminChatModal from "./AdminChatModal";
 
-// // ===== STYLED COMPONENTS =====
-// const Container = styled.div`
-//   display: flex;
+// const PageContainer = styled.div`
+//   padding: 2rem;
 //   height: 100vh;
-// `;
-
-// const Sidebar = styled.div`
-//   width: 250px;
-//   border-right: 1px solid #ddd;
 //   overflow-y: auto;
-// `;
 
-// const UserItem = styled.div`
-//   padding: 10px;
-//   cursor: pointer;
-//   border-bottom: 1px solid #eee;
-//   background: ${(props) => (props.selected ? "#f0f0f0" : "white")};
-//   &:hover {
-//     background: #f9f9f9;
+//   h2{
+//   color:#4D148C;
 //   }
 // `;
 
-// const ChatModal = styled.div`
-//   flex: 1;
-//   display: flex;
-//   flex-direction: column;
-// `;
-
-// const Header = styled.div`
-//   background: #4D148C;
-//   color: white;
-//   padding: 10px;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-// `;
-
-// const Messages = styled.div`
-//   flex: 1;
-//   padding: 10px;
-//   overflow-y: auto;
-//   display: flex;
-//   flex-direction: column;
-// `;
-
-// const MessageBubbleWrapper = styled.div`
-//   display: flex;
-//   justify-content: ${(props) => (props.isAdmin ? "flex-end" : "flex-start")};
-//   margin-bottom: 8px;
-// `;
-
-// const Bubble = styled.div`
-//   background: ${(props) => (props.isAdmin ? "#4D148C" : "#eee")};
-//   color: ${(props) => (props.isAdmin ? "white" : "black")};
-//   padding: 8px 12px;
-//   border-radius: 15px;
-//   max-width: 70%;
-//   word-break: break-word;
-//   font-size: 14px;
-// `;
-
-// const InputBox = styled.div`
-//   display: flex;
-//   border-top: 1px solid #ddd;
-// `;
-
-// const Input = styled.input`
-//   flex: 1;
-//   padding: 10px;
-//   border: none;
-//   outline: none;
-// `;
-
-// const Button = styled.button`
-//   background: #4D148C;
-//   color: white;
-//   border: none;
-//   padding: 10px 15px;
+// const UserCard = styled.div`
+//   padding: 15px;
+//   border: 1px solid #ddd;
+//   border-radius: 10px;
+//   margin-bottom: 10px;
 //   cursor: pointer;
-
+//   background: white;
+//   transition: all 0.2s;
 //   &:hover {
-//     background: #3b0f85;
+//     background: #f0f0f0;
 //   }
 // `;
-// // ================================
 
 // const AdminChatDashboard = ({ adminId }) => {
 //   const [usersChats, setUsersChats] = useState([]);
 //   const [selectedChat, setSelectedChat] = useState(null);
-//   const [messages, setMessages] = useState([]);
-//   const [text, setText] = useState("");
-//   const messagesEndRef = useRef(null);
 
-//   // Scroll to bottom
-//   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-
-//   // Fetch all chats
-//   useEffect(() => {
-//     const fetchChats = async () => {
-//       const snap = await getDocs(collection(db, "chats"));
-//       setUsersChats(snap.docs.map(doc => ({ chatId: doc.id, ...doc.data() })));
-//     };
-//     fetchChats();
-//   }, []);
-
-//   // Listen for messages in selected chat
-//   useEffect(() => {
-//     if (!selectedChat) return;
-//     const chatRef = doc(db, "chats", selectedChat.chatId);
-//     const unsub = onSnapshot(chatRef, (snap) => {
-//       const data = snap.data();
-//       setMessages(data.messages || []);
-//       scrollToBottom();
-//     });
-//     return unsub;
-//   }, [selectedChat]);
-
-//   // Send message
-//   const sendMessage = async () => {
-//     if (!text.trim() || !selectedChat) return;
-//     const chatRef = doc(db, "chats", selectedChat.chatId);
-//     const newMessage = {
-//       id: adminId,
-//       message: text,
-//       time: new Date().toISOString()
-//     };
-//     await updateDoc(chatRef, { messages: arrayUnion(newMessage) });
-//     setText("");
-//   };
-
-//   return (
-//     <Container>
-//       <Sidebar>
-//         <h3 style={{ textAlign: "center" }}>Chats</h3>
-//         {usersChats.map((chat) => (
-//           <UserItem
-//             key={chat.chatId}
-//             selected={selectedChat?.chatId === chat.chatId}
-//             onClick={() => setSelectedChat(chat)}
-//           >
-//             User: {chat.userId}
-//             <br />
-//             Last message: {chat.messages?.[chat.messages.length - 1]?.message || "No messages"}
-//           </UserItem>
-//         ))}
-//       </Sidebar>
-
-//       {selectedChat && (
-//         <ChatModal>
-//           <Header>
-//             <h3>Chat with {selectedChat.userId}</h3>
-//           </Header>
-
-//           <Messages>
-//             {messages
-//               .sort((a, b) => new Date(a.time) - new Date(b.time))
-//               .map((msg, i) => (
-//                 <MessageBubbleWrapper key={i} isAdmin={msg.id === adminId}>
-//                   <Bubble isAdmin={msg.id === adminId}>{msg.message}</Bubble>
-//                 </MessageBubbleWrapper>
-//               ))}
-//             <div ref={messagesEndRef} />
-//           </Messages>
-
-//           <InputBox>
-//             <Input
-//               placeholder="Type a message..."
-//               value={text}
-//               onChange={(e) => setText(e.target.value)}
-//               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-//             />
-//             <Button onClick={sendMessage}>Send</Button>
-//           </InputBox>
-//         </ChatModal>
-//       )}
-//     </Container>
-//   );
-// };
-
-// export default AdminChatDashboard;
+//   // useEffect(() => {
+//   //   const fetchChats = async () => {
+//   //     const snap = await getDocs(collection(db, "chats"));
+//   //     setUsersChats(snap.docs.map(doc => ({ chatId: doc.id, ...doc.data() })));
+//   //   };
+//   //   fetchChats();
+//   // }, []);
 
 
 
 
 
+//   // import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
-import AdminChatModal from "./AdminChatModal";
+// // useEffect(() => {
+// //   const fetchChats = async () => {
+// //     const snap = await getDocs(collection(db, "chats"));
 
-const PageContainer = styled.div`
-  padding: 2rem;
-  height: 100vh;
-  overflow-y: auto;
+// //     const chatsWithUserData = await Promise.all(
+// //       snap.docs.map(async (chatDoc) => {
+// //         const chatData = chatDoc.data();
 
-  h2{
-  color:#4D148C;
-  }
-`;
+// //         // Fetch user details using userId
+// //         let userData = {};
+// //         if (chatData.userId) {
+// //           const userRef = doc(db, "users", chatData.userId);
+// //           const userSnap = await getDoc(userRef);
 
-const UserCard = styled.div`
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  background: white;
-  transition: all 0.2s;
-  &:hover {
-    background: #f0f0f0;
-  }
-`;
+// //           if (userSnap.exists()) {
+// //             userData = userSnap.data();
+// //           }
+// //         }
 
-const AdminChatDashboard = ({ adminId }) => {
-  const [usersChats, setUsersChats] = useState([]);
-  const [selectedChat, setSelectedChat] = useState(null);
+// //         return {
+// //           chatId: chatDoc.id,
+// //           ...chatData,
+// //           user: userData, // attach user info
+// //         };
+// //       })
+// //     );
 
-  // useEffect(() => {
-  //   const fetchChats = async () => {
-  //     const snap = await getDocs(collection(db, "chats"));
-  //     setUsersChats(snap.docs.map(doc => ({ chatId: doc.id, ...doc.data() })));
-  //   };
-  //   fetchChats();
-  // }, []);
+// //     setUsersChats(chatsWithUserData);
+// //   };
+
+// //   fetchChats();
+// // }, []);
 
 
-
-
-
-  // import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 
 // useEffect(() => {
 //   const fetchChats = async () => {
@@ -251,7 +94,6 @@ const AdminChatDashboard = ({ adminId }) => {
 //       snap.docs.map(async (chatDoc) => {
 //         const chatData = chatDoc.data();
 
-//         // Fetch user details using userId
 //         let userData = {};
 //         if (chatData.userId) {
 //           const userRef = doc(db, "users", chatData.userId);
@@ -265,12 +107,17 @@ const AdminChatDashboard = ({ adminId }) => {
 //         return {
 //           chatId: chatDoc.id,
 //           ...chatData,
-//           user: userData, // attach user info
+//           user: userData,
 //         };
 //       })
 //     );
 
-//     setUsersChats(chatsWithUserData);
+//     // ✅ FILTER HERE
+//     setUsersChats(
+//       chatsWithUserData.filter(
+//         (chat) => chat.messages && chat.messages.length > 0
+//       )
+//     );
 //   };
 
 //   fetchChats();
@@ -278,56 +125,198 @@ const AdminChatDashboard = ({ adminId }) => {
 
 
 
-useEffect(() => {
-  const fetchChats = async () => {
-    const snap = await getDocs(collection(db, "chats"));
+//   return (
+//     <PageContainer>
+//       <h2>All User Chats</h2>
+//       {usersChats.length === 0 && <p>No chats yet.</p>}
+//       {usersChats.map((chat) => (
+//        <UserCard key={chat.chatId} onClick={() => setSelectedChat(chat)}>
+//   <strong style={{color:"#4D148C"}}>Name:</strong> {chat.user?.name || "N/A"} <br />
+//   <strong style={{color:"#4D148C"}}>Email:</strong> {chat.user?.email || "N/A"} <br />
+//   <strong style={{color:"#4D148C"}}>Phone:</strong> {chat.user?.phone || "N/A"} <br />
+//   <strong style={{color:"#4D148C"}}>Last message:</strong>{" "}
+//   {chat.messages?.[chat.messages.length - 1]?.message || "No messages"}
+// </UserCard>
+//       ))}
 
-    const chatsWithUserData = await Promise.all(
-      snap.docs.map(async (chatDoc) => {
-        const chatData = chatDoc.data();
+//       {selectedChat && (
+//         <AdminChatModal
+//           adminId={adminId}
+//           chat={selectedChat}
+//           onClose={() => setSelectedChat(null)}
+//         />
+//       )}
+//     </PageContainer>
+//   );
+// };
 
-        let userData = {};
-        if (chatData.userId) {
-          const userRef = doc(db, "users", chatData.userId);
-          const userSnap = await getDoc(userRef);
+// export default AdminChatDashboard;
 
-          if (userSnap.exists()) {
-            userData = userSnap.data();
+
+
+
+
+
+
+
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  getDoc,deleteDoc
+} from "firebase/firestore";
+import { db } from "../firebaseConfig";
+import AdminChatModal from "./AdminChatModal";
+
+/* ================= STYLES ================= */
+
+const PageContainer = styled.div`
+  padding: 2rem;
+  height: 100vh;
+  overflow-y: auto;
+
+  h2 {
+    color: #4D148C;
+  }
+`;
+
+const UserCard = styled.div`
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background: white;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+`;
+
+const CardRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const DeleteBtn = styled.button`
+  background: red;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+`;
+
+
+/* ================= COMPONENT ================= */
+
+const AdminChatDashboard = ({ adminId }) => {
+  const [usersChats, setUsersChats] = useState([]);
+  const [selectedChat, setSelectedChat] = useState(null);
+
+  /* ================= REAL-TIME LISTENER ================= */
+
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "chats"), async (snapshot) => {
+      const chatsWithUserData = await Promise.all(
+        snapshot.docs.map(async (chatDoc) => {
+          const chatData = chatDoc.data();
+
+          let userData = {};
+          if (chatData.userId) {
+            try {
+              const userRef = doc(db, "users", chatData.userId);
+              const userSnap = await getDoc(userRef);
+
+              if (userSnap.exists()) {
+                userData = userSnap.data();
+              }
+            } catch (err) {
+              console.error("User fetch error:", err);
+            }
           }
-        }
 
-        return {
-          chatId: chatDoc.id,
-          ...chatData,
-          user: userData,
-        };
-      })
-    );
+          return {
+            chatId: chatDoc.id,
+            ...chatData,
+            user: userData,
+          };
+        })
+      );
 
-    // ✅ FILTER HERE
-    setUsersChats(
-      chatsWithUserData.filter(
+      // ✅ FILTER CHATS WITH MESSAGES
+      let filtered = chatsWithUserData.filter(
         (chat) => chat.messages && chat.messages.length > 0
-      )
-    );
-  };
+      );
 
-  fetchChats();
-}, []);
+      // ✅ SORT BY LATEST MESSAGE (LATEST FIRST)
+      filtered.sort((a, b) => {
+        const aTime =
+          a.messages[a.messages.length - 1]?.time || "1970-01-01";
+        const bTime =
+          b.messages[b.messages.length - 1]?.time || "1970-01-01";
+
+        return new Date(bTime) - new Date(aTime);
+      });
+
+      setUsersChats(filtered);
+    });
+
+    return () => unsub();
+  }, []);
 
 
+
+
+
+  const handleDeleteChat = async (chatId) => {
+  const confirmDelete = window.confirm("Delete this chat?");
+  if (!confirmDelete) return;
+
+  try {
+    await deleteDoc(doc(db, "chats", chatId));
+
+    // close modal if deleted chat is open
+    if (selectedChat?.chatId === chatId) {
+      setSelectedChat(null);
+    }
+  } catch (err) {
+    console.error("Delete failed:", err);
+    alert("Failed to delete chat");
+  }
+};
+
+
+  /* ================= UI ================= */
 
   return (
     <PageContainer>
       <h2>All User Chats</h2>
+
       {usersChats.length === 0 && <p>No chats yet.</p>}
+
       {usersChats.map((chat) => (
-       <UserCard key={chat.chatId} onClick={() => setSelectedChat(chat)}>
-  <strong style={{color:"#4D148C"}}>Name:</strong> {chat.user?.name || "N/A"} <br />
-  <strong style={{color:"#4D148C"}}>Email:</strong> {chat.user?.email || "N/A"} <br />
-  <strong style={{color:"#4D148C"}}>Phone:</strong> {chat.user?.phone || "N/A"} <br />
-  <strong style={{color:"#4D148C"}}>Last message:</strong>{" "}
-  {chat.messages?.[chat.messages.length - 1]?.message || "No messages"}
+        <UserCard key={chat.chatId}>
+  <CardRow>
+    <div onClick={() => setSelectedChat(chat)} style={{ flex: 1 }}>
+      <strong style={{ color: "#4D148C" }}>Name:</strong>{" "}
+      {chat.user?.name || chat.name || "N/A"} <br />
+
+      <strong style={{ color: "#4D148C" }}>Phone:</strong>{" "}
+      {chat.user?.phone || chat.phone || "N/A"} <br />
+
+      <strong style={{ color: "#4D148C" }}>Last message:</strong>{" "}
+      {chat.messages?.[chat.messages.length - 1]?.message || "Attachment"}
+    </div>
+
+    <DeleteBtn onClick={() => handleDeleteChat(chat.chatId)}>
+      Delete
+    </DeleteBtn>
+  </CardRow>
 </UserCard>
       ))}
 

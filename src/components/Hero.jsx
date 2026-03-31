@@ -213,7 +213,15 @@ const Hero = () => {
         </IconGroup>
 
         <TrackingInputGroup>
-          <Input placeholder="Tracking number" onChange={(e)=>setTrackingNumber(e.target.value)}/>
+          <Input
+  placeholder="Tracking number"
+  onChange={(e) =>
+    setTrackingNumber(e.target.value.replace(/\s/g, ""))
+  }
+  onKeyDown={(e) => {
+    if (e.key === " ") e.preventDefault();
+  }}
+/>
           <TrackButton onClick={()=>setShowTrackerModal(true)}>TRACK</TrackButton>
         </TrackingInputGroup>
       </ActionBar>

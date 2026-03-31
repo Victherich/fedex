@@ -169,7 +169,15 @@ const MobileHero = () => {
       {/* Tracking Input */}
       <TrackingSection>
         <TrackingInputGroup>
-          <Input placeholder="TRACKING ID" onChange={(e)=>setTrackingNumber(e.target.value)}/>
+          <Input
+  placeholder="TRACKING ID"
+  onChange={(e) =>
+    setTrackingNumber(e.target.value.replace(/\s/g, ""))
+  }
+  onKeyDown={(e) => {
+    if (e.key === " ") e.preventDefault();
+  }}
+/>
           <TrackButton onClick={()=>setShowTrackerModal(true)}>
             TRACK
              {/* <span>→</span> */}

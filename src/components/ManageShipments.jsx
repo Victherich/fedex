@@ -12,6 +12,7 @@ import { db } from "../firebaseConfig";
 import { FaPlus, FaTrash, FaEdit } from "react-icons/fa";
 import ShipmentModal from "./ShipmentModal";
 import Swal from "sweetalert2";
+import EmailSenderModal from "./EmailSenderModal";
 
 /* ================= STYLES ================= */
 
@@ -82,6 +83,9 @@ export default function ManageShipments() {
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [search, setSearch] = useState("");
+  const [open, setOpen] = useState(false);
+  const [email, setEmail]=useState('');
+  const [trackingNumber, setTrackingNumber]=useState('');
 
   const [form, setForm] = useState({
     senderName: "",
@@ -91,9 +95,9 @@ export default function ManageShipments() {
 
   const shipmentsRef = collection(db, "shipments");
 
-  const generateTrackingNumber = () => {
-    return "TRK-" + Date.now();
-  };
+const generateTrackingNumber = () => {
+  return Date.now().toString();
+};
 
   const fetchData = async () => {
     const snap = await getDocs(shipmentsRef);
@@ -159,6 +163,8 @@ export default function ManageShipments() {
   );
 });
 
+console.log(filteredData)
+
   return (
     <Page>
       <Title>Manage Shipments</Title>
@@ -199,6 +205,13 @@ export default function ManageShipments() {
               <Btn onClick={() => handleDelete(item.id)}>
                 <FaTrash />
               </Btn>
+              <Btn onClick={() => {
+                setOpen(true);
+                setEmail(item.receiverEmail);
+                setTrackingNumber(item.trackingNumber);
+                }}>
+                Email customer
+              </Btn>
             </Actions>
           </Card>
         ))}
@@ -221,6 +234,14 @@ export default function ManageShipments() {
           editing={editingId}
         />
       )}
+
+
+      <EmailSenderModal 
+      isOpen={open} 
+      onClose={() => setOpen(false)}
+      email2={email}
+      trackingNumber={trackingNumber}
+      />
     </Page>
   );
 }

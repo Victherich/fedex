@@ -422,11 +422,16 @@ export default function ShipmentTrackerModal({ isOpen, onClose }) {
       <ModalBox>
         <Title>Shipment Tracker</Title>
 
-        <Input
-          placeholder="Enter Tracking Number..."
-          value={trackingNumber}
-          onChange={(e) => setTrackingNumber(e.target.value)}
-        />
+       <Input
+  placeholder="Enter Tracking Number..."
+  value={trackingNumber}
+  onChange={(e) => setTrackingNumber(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === " ") {
+      e.preventDefault();
+    }
+  }}
+/>
 
         <Button onClick={fetchShipment}>Track Shipment</Button>
         <CloseButton onClick={onClose}>Close</CloseButton>
