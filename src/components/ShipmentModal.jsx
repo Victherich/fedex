@@ -109,6 +109,15 @@ export default function ShipmentModal({
               required
             />
 
+             <Label>Arrival Date *</Label>
+            <Input
+              type="date"
+              name="arrivalDate"
+              value={form.arrivalDate || ""}
+              onChange={handleChange}
+              required
+            />
+
             <Label>Delivery Type *</Label>
             <Select
               name="deliveryType"

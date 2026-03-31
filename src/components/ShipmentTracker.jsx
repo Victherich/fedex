@@ -462,6 +462,7 @@ export default function ShipmentTrackerModal({ isOpen, onClose }) {
     <Row><b>Tracking Number:</b> {shipment.trackingNumber}</Row>
     <Row><b>Status:</b> {shipment.status}</Row>
     <Row><b>Shipment Date:</b> {shipment.shipmentDate}</Row>
+    <Row><b>Arrival Date:</b> {shipment.arrivalDate}</Row>
     <Row><b>Delivery Type:</b> {shipment.deliveryType}</Row>
     <Row>
       <b>Last Updated:</b>{" "}
