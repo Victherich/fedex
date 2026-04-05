@@ -308,18 +308,18 @@ const Profile = ({setActivePage}) => {
   </ActionCard>
 
 
-  <ActionCard onClick={() => setActivePage('chats')}>
+  {/* <ActionCard onClick={() => setActivePage('chats')}>
     <Icon><FaComments /></Icon>
     <Label>Customer Chats</Label>
     <Desc>View and reply to customer chats</Desc>
-  </ActionCard>
+  </ActionCard> */}
 
 
-    <ActionCard onClick={() => setActivePage('emailsender')}>
+    {/* <ActionCard onClick={() => setActivePage('emailsender')}>
     <Icon><FaEnvelope /></Icon>
     <Label>Email Sender</Label>
-    {/* <Desc>View and reply to customer chats</Desc> */}
-  </ActionCard>
+   
+  </ActionCard> */}
 
 
     <ActionCard onClick={() => setActivePage('addadmin')}>

@@ -1,5 +1,8 @@
 // import React from "react";
 import styled from "styled-components";
+import React, { useContext, useEffect, useState } from "react";
+import EmailSenderModal from "./EmailSenderModal"; // import it
+import { Context } from "./Context";
 
 const primary = "#4D148C";
 
@@ -12,7 +15,7 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 15;
+  z-index: 200;
 `;
 
 const Box = styled.div`
@@ -86,10 +89,21 @@ export default function ShipmentModal({
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave();
-  };
+  const [showEmailModal, setShowEmailModal] = useState(false);
+const {sendEmail, generateTrackingNumber}=useContext(Context);
+
+
+useEffect(()=>{
+  generateTrackingNumber();
+},[])
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  await onSave(); // save shipment first
+
+  sendEmail();
+};
 
   return (
     <Overlay>
@@ -294,6 +308,14 @@ export default function ShipmentModal({
             </Select>
           </Section>
 
+           <EmailSenderModal
+  email2={form.receiverEmail}
+  trackingNumber={form.trackingNumber}
+  status={form.status}
+  editing={editing}
+  form={form}
+/>
+
           <Btn type="submit">
             {editing ? "Update Shipment" : "Create Shipment"}
           </Btn>
@@ -301,6 +323,7 @@ export default function ShipmentModal({
             Cancel
           </CancelBtn>
         </form>
+       
       </Box>
     </Overlay>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   collection,
@@ -13,6 +13,7 @@ import { FaPlus, FaTrash, FaEdit } from "react-icons/fa";
 import ShipmentModal from "./ShipmentModal";
 import Swal from "sweetalert2";
 import EmailSenderModal from "./EmailSenderModal";
+import { Context } from "./Context";
 
 /* ================= STYLES ================= */
 
@@ -85,7 +86,7 @@ export default function ManageShipments() {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [email, setEmail]=useState('');
-  const [trackingNumber, setTrackingNumber]=useState('');
+  const {trackingNumber}=useContext(Context);
 
   const [form, setForm] = useState({
     senderName: "",
@@ -95,9 +96,9 @@ export default function ManageShipments() {
 
   const shipmentsRef = collection(db, "shipments");
 
-const generateTrackingNumber = () => {
-  return Date.now().toString();
-};
+// const generateTrackingNumber = () => {
+//   return Date.now().toString();
+// };
 
   const fetchData = async () => {
     const snap = await getDocs(shipmentsRef);
@@ -121,7 +122,7 @@ const generateTrackingNumber = () => {
       } else {
         await addDoc(shipmentsRef, {
           ...form,
-          trackingNumber: generateTrackingNumber(),
+          trackingNumber: trackingNumber,
           createdAt: new Date(),
         });
       }
@@ -205,13 +206,13 @@ console.log(filteredData)
               <Btn onClick={() => handleDelete(item.id)}>
                 <FaTrash />
               </Btn>
-              <Btn onClick={() => {
+              {/* <Btn onClick={() => {
                 setOpen(true);
                 setEmail(item.receiverEmail);
                 setTrackingNumber(item.trackingNumber);
                 }}>
                 Email customer
-              </Btn>
+              </Btn> */}
             </Actions>
           </Card>
         ))}
@@ -236,12 +237,12 @@ console.log(filteredData)
       )}
 
 
-      <EmailSenderModal 
+      {/* <EmailSenderModal 
       isOpen={open} 
       onClose={() => setOpen(false)}
       email2={email}
       trackingNumber={trackingNumber}
-      />
+      /> */}
     </Page>
   );
 }

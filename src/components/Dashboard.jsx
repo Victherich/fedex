@@ -554,23 +554,23 @@ const UserDashboard = () => {
             Manage Shipments
           </SidebarButton>
 
-          <SidebarButton
+          {/* <SidebarButton
             onClick={() => {
               setActivePage("chats");
               setMenuOpen(false);
             }}
           >
             Customer Chats
-          </SidebarButton>
+          </SidebarButton> */}
 
-            <SidebarButton
+            {/* <SidebarButton
             onClick={() => {
               setActivePage("emailsender");
               setMenuOpen(false);
             }}
           >
             Send Email
-          </SidebarButton>
+          </SidebarButton> */}
 
           <SidebarButton
             onClick={() => {

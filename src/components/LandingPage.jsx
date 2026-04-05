@@ -9,6 +9,7 @@ import Hero from './Hero'
 import TariffAlert from './Tarrifalert'
 import MobileActions from './MobileActions'
 import MobileHero from './MobileHero'
+import TestimonialSection from './TestimonialSection'
 
 
 const LandingPage = ()=>{
@@ -24,8 +25,8 @@ const LandingPage = ()=>{
 <ClaritySection/>
 <ExpeditedShipping/>
 <BusinessSolutions/>
+<TestimonialSection/>
 <FooterNotices/>
-
 
         </div>
     )

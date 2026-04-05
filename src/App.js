@@ -13,6 +13,10 @@ import { useContext } from 'react';
 import { Context } from './components/Context';
 import ShipmentTrackerModal from './components/ShipmentTracker';
 import ScrollToTop from './components/ScrollToTop';
+import ShippingPage from './components/ShippingPage';
+import DesignPrintPage from './components/DesignPrintPage';
+import LocationsPage from './components/LocationsPage';
+import SupportPage from './components/SupportPage';
 
 
 
@@ -27,7 +31,10 @@ function App() {
  <Header/>
  <Routes>
   <Route path='/' element={<LandingPage/>}/>
-
+  <Route path='/shipping' element={<ShippingPage/>}/>
+   <Route path='/design' element={<DesignPrintPage/>}/>
+ <Route path='/locations' element={<LocationsPage/>}/>
+  <Route path='/support' element={<SupportPage/>}/>
   
     
       <Route path='/signup' element={<Signup/>}/>
@@ -35,7 +42,7 @@ function App() {
   <Route path='/dashboard' element={<UserDashboard/>}/> 
   
  </Routes>
- <ChatButton/>
+ {/* <ChatButton/> */}
  {openChatModal&&<ChatModal/>}
 
  <ShipmentTrackerModal

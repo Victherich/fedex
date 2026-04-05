@@ -61,7 +61,7 @@ const TariffAlert = () => {
         </svg>
       </IconWrapper>
       <AlertText>
-        US Supreme Court Tariff Update. <a href="#">See how this may impact you.</a>
+        US Supreme Court Tariff Update. <a href="/">See how this may impact you.</a>
       </AlertText>
     </AlertContainer>
   );

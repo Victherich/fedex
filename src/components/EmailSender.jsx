@@ -40,7 +40,7 @@ const Button = styled.button`
 export default function EmailSender() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [link, setLink] = useState("https://fedex-87e86.web.app/");
+  const [link, setLink] = useState("https://www.apodelibrateddelivery.com");
   const [loading, setLoading] = useState(false);
 
   const sendEmail = async () => {
@@ -61,6 +61,7 @@ export default function EmailSender() {
 
     try {
       const res = await fetch("https://backend-mailer-1-five.vercel.app/api/contact", {
+          //  const res = await fetch("http://localhost:3000/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +75,7 @@ export default function EmailSender() {
 
       if (res.ok) {
         Swal.fire({text:"✅ Email sent successfully", icon:"success"});
-        setEmail("");setMessage("");
+        // setEmail("");setMessage("");
       } else {
         alert("❌ " + (data.error || "Failed to send email"));
       }
