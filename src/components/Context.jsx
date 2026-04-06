@@ -31,8 +31,8 @@ const ContextProvider = ({children})=>{
     Swal.showLoading();
 
     try {
-    //   const res = await fetch("https://backend-mailer-1-five.vercel.app/api/contact", {
-         const res = await fetch("http://localhost:3000/api/contact", {
+      const res = await fetch("https://backend-mailer-1-five.vercel.app/api/contact", {
+        //  const res = await fetch("http://localhost:3000/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
