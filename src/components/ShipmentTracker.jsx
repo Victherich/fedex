@@ -497,6 +497,8 @@ export default function ShipmentTrackerModal({ isOpen, onClose }) {
     <Row><b>Quantity:</b> {shipment.quantity}</Row>
     <Row><b>Weight (kg):</b> {shipment.weight}</Row>
     <Row><b>Package Type:</b> {shipment.packageType}</Row>
+      <Row><b>Current Location:</b> {shipment.currentLocation}</Row>
+    <Row><b>Arrival Date and Time at current location:</b> {shipment.currentLocationDateTime}</Row>
   </Section>
 
   {/* 💰 PAYMENT */}

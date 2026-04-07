@@ -253,6 +253,22 @@ useEffect(()=>{
               value={form.packageType || ""}
               onChange={handleChange}
             />
+
+            <Label>Current Location of the Package *</Label>
+            <Input
+              name="currentLocation"
+              value={form.currentLocation || ""}
+              onChange={handleChange}
+              required
+            />
+
+            <Label>Arrival Date and Time at current location: *</Label>
+            <Input
+              name="currentLocationDateTime"
+              value={form.currentLocationDateTime || ""}
+              onChange={handleChange}
+              required
+            />
           </Section>
 
           {/* 💰 Payment */}
